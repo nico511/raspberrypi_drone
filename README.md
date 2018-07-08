@@ -1,2 +1,2 @@
-# raspberrypi_drone
-Raspberry Pi Drone -- Personal Project
+# Raspberry Pi Drone
+Just a Personal Project
