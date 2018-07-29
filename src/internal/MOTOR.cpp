@@ -25,16 +25,36 @@ void MOTOR::armESC()
 	CHIP->setPWM(CHANNEL, 0);
 	wait_ms(1000);
 	CHIP->setPWM(CHANNEL, MAXSERVOPWM);
-	wait_ms(1000);	
+	wait_ms(1000);
 	CHIP->setPWM(CHANNEL, MINSERVOPWM);
-	
+
 	return;
 }
 
-void MOTOR::armESCList(MOTOR m[])
+void MOTOR::armESCWithList(std::vector<MOTOR> motors)
 {
-	size_t s = sizeof(m) / sizeof(m[0]);
-	std::printf("%d\n", s);
+	size_t s = motors.size() + 1;
+
+	CHIP->setPWM(getChannel(), 0);
+	for( MOTOR m : motors )
+		CHIP->setPWM(m.getChannel(), 0);
+
+	std::printf("Set %d ESCs to 0\n", s);
+	wait_ms(1000);
+
+	CHIP->setPWM(getChannel(), MAXSERVOPWM);
+        for( MOTOR m : motors )
+                CHIP->setPWM(m.getChannel(), MAXSERVOPWM);
+
+	std::printf("Set %d ESCs to MAX\n", s);
+        wait_ms(1000);
+
+        CHIP->setPWM(getChannel(), MAXSERVOPWM);
+        for( MOTOR m : motors )
+                CHIP->setPWM(m.getChannel(), MAXSERVOPWM);
+
+	std::printf("Set %d ESCs to MIN\nArming complete\n", s);
+
 	return;
 }
 
