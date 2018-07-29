@@ -24,7 +24,9 @@ public:
 	int getChannel();
 	void armESC();
 	void armESCWithList(std::vector<MOTOR>);
-	void calibrate();
+	void calibrate_ARM();
+	void setSpeedPercent(uint8_t);
+	void setSpeed(uint16_t);
 private:
 	PCA9685 *CHIP;
 	int CHANNEL;
