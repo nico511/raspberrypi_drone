@@ -12,6 +12,10 @@ CFLAGS          := -c -Wall $(INCLUDE)
 TESTINGOBJFILES := MOTOR.o PCA9685.o I2C.o functions.o testing.o
 TESTING         := $(addprefix $(OBJDIR)/,$(TESTINGOBJFILES))
 
+STOPOBJFILES    := MOTOR.o PCA9685.o I2C.o stop.o
+STOP            := $(addprefix $(OBJDIR)/,$(STOPOBJFILES))
+
+
 NAME            := ledpwm
 
 OBJFILES        := $(NAME).o PCA9685.o I2C.o
@@ -33,7 +37,8 @@ $(NAME): $(OBJFILESLIST)
 testing: $(TESTING)
 	$(CPP) $(TESTING) -o $(BUILDDIR)/testing
 
-
+stop: $(STOP)
+	$(CPP) -o $(BUILDDIR)/stop
 
 
 $(OBJDIR)/testing.o: $(SRCIN)/testing.cpp
@@ -53,3 +58,6 @@ $(OBJDIR)/I2C.o: $(SRCEXT)/I2C.cpp $(INCEXT)/I2C.h
 
 $(OBJDIR)/functions.o: $(SRCIN)/functions.cpp $(INCIN)/functions.h
 	$(CPP) $(CFLAGS) $(SRCIN)/functions.cpp -o $(OBJDIR)/functions.o
+
+$(OBJDIR)/stop.o: $(SRCIN)/stop.cpp
+	$(CPP) $(CFLAGS) $(SRCIN)/stop.cpp -o $(OBJDIR)/stop.o
