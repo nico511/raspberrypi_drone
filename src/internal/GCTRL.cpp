@@ -8,8 +8,8 @@
 
 #include "GCTRL.h"
 
-GCTRL::GCTRL(string type)
+GCTRL::GCTRL(string droneType)
 {
-	
+	NAME = ;
 }
 

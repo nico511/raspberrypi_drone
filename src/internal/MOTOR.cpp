@@ -208,10 +208,10 @@ void MOTOR::armESCFromChannels(PCA9685 *chip1, uint8_t channelStart, uint8_t cha
 */
 void MOTOR::setSpeedPercent(PCA9685 *chip1, uint8_t channel, uint8_t aMin, uint8_t aMax, uint8_t percent)
 {
-	float inc = (aMax - aMin) / 100.0;
+	float inc = ((MAXSERVOPWM - aMax) - (MINSERVOPWM + aMin)) / 100.0;
 
 	if(percent <= 100)
-		chip1->setPWM(channel, aMin + (int) (percent * inc));
+		chip1->setPWM(channel, (MINSERVOPWM + aMin + (int) (percent * inc)));
 	else
 		printf("%d is outside of range 0 - 100", percent);
 }
@@ -226,5 +226,4 @@ void MOTOR::setSpeed(PCA9685 *chip1, uint8_t channel, uint8_t aMin, uint8_t aMax
 	else
                 printf("%d is outside of range 0 - %d\n", speed, ((MAXSERVOPWM - aMax) - (MINSERVOPWM + aMin)));
 }
-
 

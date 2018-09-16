@@ -9,13 +9,15 @@
 #ifndef GCTRL_H_
 #define GCTRL_H_
 
+#include "MOTOR.h"
+
 class GCTRL
 {
 public:
 	GCTRL(string); //constructor
 	
 private:
-	string TYPE;
+	const string NAME;
 };
 
 #endif
