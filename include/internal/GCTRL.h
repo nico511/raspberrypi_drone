@@ -15,7 +15,7 @@ class GCTRL
 {
 public:
 	GCTRL(string); //constructor
-	
+	GCTRL(string, )
 private:
 	const string NAME;
 };
