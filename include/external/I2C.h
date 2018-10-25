@@ -34,7 +34,9 @@ public:
 	virtual ~I2C();
 	uint8_t dataBuffer[BUFFER_SIZE];
 	uint8_t read_byte(uint8_t);
+	void read_bytes(uint8_t, uint8_t, uint8_t); //uint8_t address, uint8_t count, uint8_t * arary
 	uint8_t write_byte(uint8_t, uint8_t);
+
 private:
 	int _i2caddr;
 	int _i2cbus;
@@ -44,3 +46,12 @@ private:
 };
 
 #endif /* I2C_H_ */
+
+//NOT USING
+/*
+	int8_t read_byte_signed(uint8_t); //added
+	int16_t read_two_bytes_signed(uint8_t); //added
+	int16_t read_two_bytes_signed(uint8_t, uint8_t); //added
+	uint16_t read_two_bytes_unsigned(uint8_t); //added
+	uint16_t read_two_bytes_unsigned(uint8_t, uint8_t); //added
+*/

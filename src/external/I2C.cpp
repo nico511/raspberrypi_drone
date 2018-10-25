@@ -19,6 +19,8 @@
  * Created on  : Dec 30, 2012
  *
  * Copyright © 2012 Georgi Todorov  <terahz@geodar.com>
+ * 
+ * Modifed by Nicolas Draves to add functions
  */
 
 #include <sys/ioctl.h>
@@ -70,6 +72,33 @@ uint8_t I2C::read_byte(uint8_t address) {
 	}
 
 }
+
+uint8_t I2C::read_bytes(uint8_t address, uint8_t count, uint8_t * arary) {
+	if (fd != -1) {
+		uint8_t buff[BUFFER_SIZE];
+		buff[0] = address;
+		if (write(fd, buff, BUFFER_SIZE) != BUFFER_SIZE) {
+			syslog(LOG_ERR,
+					"I2C slave 0x%x failed to go to register 0x%x [read_byte():write %d]",
+					_i2caddr, address, errno);
+			return (-1);
+		} else {
+			if (read(fd, array, count) != count) {
+				syslog(LOG_ERR,
+						"Could not read from I2C slave 0x%x, register 0x%x [read_byte():read %d]",
+						_i2caddr, address, errno);
+				return (-1);
+			} else {
+				return 1; // zero means it worked
+			}
+		}
+	} else {
+		syslog(LOG_ERR, "Device File not available. Aborting read");
+		return (-1);
+	}
+
+}
+
 //! Write a single byte from a I2C Device
 /*!
  \param address register address to write to
@@ -107,3 +136,53 @@ void I2C::openfd() {
 				errno);
 	}
 }
+
+//NOT USING
+
+//! Read a single byte from I2C Bus and returns it as a signed number
+/*!
+ \param address register address to read from
+ *
+int8_t I2C::read_byte_signed(uint8_t address)
+{
+	return (int8_t) read_byte(address);
+}
+
+//! Read a two bytes total from I2C Bus. One from High register (low + 1) and one from low register. returns it as a signed number
+/*!
+ \param address_LOW register. The low part of the address to read from
+ *
+int16_t I2C::read_two_bytes_signed(uint8_t address_LOW)
+{
+	return (int16_t) (read_byte(address_LOW + 0x01) << 8) | ( read_byte(address_LOW) );
+}
+
+//! Read a two bytes total from I2C Bus. One from High register and one from low register. returns it as a signed number
+/*!
+ \param address_LOW register. The low part of the address to read from
+ \param address_HIGH register. The high part of the address to read from
+ *
+int16_t I2C::read_two_bytes_signed(uint8_t address_LOW, uint8_t address_HIGH)
+{
+	return (int16_t) (read_byte(address_HIGH) << 8) | ( read_byte(address_LOW) );
+}
+
+//! Read a two bytes total from I2C Bus. One from High register and one from low register. returns it as an unsigned number
+/*!
+ \param address_LOW register. The Low part of the address to read from
+ *
+uint16_t I2C::read_two_bytes_unsigned(uint8_t address_LOW)
+{
+	return (uint16_t) (read_byte(address_LOW + 0x01) << 8) | ( read_byte(address_LOW) );
+}
+
+//! Read a two bytes total from I2C Bus. One from High register and one from low register. returns it as an unsigned number
+/*!
+ \param address_LOW register. The low part of the address to read from
+ \param address_HIGH register. The high part of the address to read from
+ *
+uint16_t I2C::read_two_bytes_unsigned(uint8_t address_LOW, uint8_t address_HIGH)
+{
+	return (uint16_t) (read_byte(address_HIGH) << 8) | ( read_byte(address_LOW) ); //read_byte(address_LOW)
+}
+*/

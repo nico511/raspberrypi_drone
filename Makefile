@@ -9,12 +9,11 @@ BUILDDIR        := ./bin
 INCLUDE         := -I$(INCIN) -I$(INCEXT)
 CFLAGS          := -c -Wall $(INCLUDE)
 
-TESTINGOBJFILES := MOTOR.o PCA9685.o I2C.o functions.o testing.o
+TESTINGOBJFILES := MOTOR.o PCA9685.o I2C.o functions.o testing.o GCTRL.o
 TESTING         := $(addprefix $(OBJDIR)/,$(TESTINGOBJFILES))
 
 STOPOBJFILES    := MOTOR.o PCA9685.o I2C.o stop.o
 STOP            := $(addprefix $(OBJDIR)/,$(STOPOBJFILES))
-
 
 NAME            := ledpwm
 
@@ -61,3 +60,6 @@ $(OBJDIR)/functions.o: $(SRCIN)/functions.cpp $(INCIN)/functions.h
 
 $(OBJDIR)/stop.o: $(SRCIN)/stop.cpp
 	$(CPP) $(CFLAGS) $(SRCIN)/stop.cpp -o $(OBJDIR)/stop.o
+
+$(OBJDIR)/GCTRL.o: $(SRCIN)/GCTRL.cpp $(INCIN)/GCTRL.h
+	$(CPP) $(CFLAGS) $(SRCIN)/GCTRL.cpp -o $(OBJDIR)/GCTRL.o
